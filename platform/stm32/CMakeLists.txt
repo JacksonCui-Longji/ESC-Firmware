@@ -1,0 +1,2 @@
+add_subdirectory(stm32_hal)
+add_subdirectory(esc_seat_fw)

@@ -1,0 +1,20 @@
+add_library(Drivers STATIC)
+
+target_sources(Drivers PRIVATE
+    bsp/common/BSP_Delay.c
+    bsp/led/BSP_LED.c
+    bsp/stepper/BSP_Stepper.c
+)
+
+
+target_include_directories(Drivers PUBLIC
+    bsp/common
+    bsp/led
+    bsp/stepper
+    ${PROJECT_SOURCE_DIR}/platform/board
+)
+
+target_link_libraries(Drivers PUBLIC
+    Common
+    STM32_HAL
+)

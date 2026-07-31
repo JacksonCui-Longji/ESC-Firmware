@@ -60,9 +60,27 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 # Remove wrong libob.a library dependency when using cpp files
 list(REMOVE_ITEM CMAKE_C_IMPLICIT_LINK_LIBRARIES ob)
 
+# Linker script
+set(LINKER_SCRIPT
+    ${CMAKE_CURRENT_SOURCE_DIR}/STM32F103xx_FLASH.ld
+)
+
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE
+    -T${LINKER_SCRIPT}
+    -mcpu=cortex-m3
+    -mthumb
+    -Wl,--gc-sections
+)
+
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
 
     # Add user defined libraries
+    Application
+    Services
+    Drivers
+    Protocol
+    Middleware
+    Common
 )
