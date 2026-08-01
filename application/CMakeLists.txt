@@ -17,4 +17,5 @@ target_link_libraries(Application
     Services
     Drivers
     Common
+    Middleware
 )

@@ -21,4 +21,5 @@ target_include_directories(Middleware PUBLIC
 
 target_link_libraries(Middleware PUBLIC
     Common
+    Drivers
 )
