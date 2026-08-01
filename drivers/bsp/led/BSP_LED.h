@@ -16,10 +16,10 @@ typedef enum BSP_LED_State_t {
 }BSP_LED_State;
 
 /* extern interface */
-extern uint8_t BSP_LED_Init(void);
-extern uint8_t BSP_LED_Deinit(void);
-extern uint8_t BSP_LED_State_Set(BSP_LED_Color led, BSP_LED_State state);
+extern ret_t BSP_LED_Init(void);
+extern ret_t BSP_LED_Deinit(void);
+extern ret_t BSP_LED_State_Set(BSP_LED_Color led, BSP_LED_State state);
 extern BSP_LED_State BSP_LED_State_Get(BSP_LED_Color led);
-extern uint8_t BSP_LED_Toggle(BSP_LED_Color led);
+extern ret_t BSP_LED_Toggle(BSP_LED_Color led);
 
 #endif // BSP_LED_H

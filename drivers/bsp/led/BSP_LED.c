@@ -1,27 +1,27 @@
 #include "BSP_LED.h"
 #include "esc_seat_board.h"
 
-uint8_t BSP_LED_Init()
+ret_t BSP_LED_Init()
 {
 
 }
 
-uint8_t BSP_LED_Deinit()
+ret_t BSP_LED_Deinit()
 {
 
 }
 
-uint8_t BSP_LED_State_Set(BSP_LED_Color led, BSP_LED_State state)
+ret_t BSP_LED_State_Set(BSP_LED_Color led, BSP_LED_State state)
 {
     GPIO_PinState hal_state = GPIO_PIN_RESET;
 
     if(BSP_LED_OFF == state)
     {
-        hal_state = GPIO_PIN_RESET;
+        hal_state = GPIO_PIN_SET;
     }
     else if(BSP_LED_ON == state)
     {
-        hal_state = GPIO_PIN_SET;
+        hal_state = GPIO_PIN_RESET;
     }
     else
     {
@@ -97,7 +97,7 @@ BSP_LED_State BSP_LED_State_Get(BSP_LED_Color led)
     return ret_state;
 }
 
-uint8_t BSP_LED_Toggle(BSP_LED_Color led)
+ret_t BSP_LED_Toggle(BSP_LED_Color led)
 {
     switch(led)
     {

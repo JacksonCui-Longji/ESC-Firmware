@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 
+typedef uint8_t ret_t;
 
-#define RET_OK (0x01u)
-#define RET_NG (0x00u)
+#define RET_OK ((ret_t)0x01u)
+#define RET_NG ((ret_t)0x00u)
 
 #endif
