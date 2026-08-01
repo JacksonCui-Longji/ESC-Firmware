@@ -1,7 +1,7 @@
 #include "Scheduler.h"
 #include "BSP_Delay.h"
 #include "BSP_Time.h"
-
+#include "Timer.h"
 
 #define MAX_TASK_NUM 10
 
@@ -13,29 +13,26 @@ void Scheduler_Init(void)
 
 }
 
-int Scheduler_Register(Task_t *task)
+ret_t Scheduler_Register(Task_t *task)
 {
     if(task_count >= MAX_TASK_NUM)
     {
-        return -1;
+        return RET_NG;
     }
 
     task_list[task_count++] = task;
 
-    return 0;
+    return RET_OK;
 }
 
-void Scheduler_Run(void)
-{
-    uint32_t now = BSP_GetTick();
+void Scheduler_MainFunction(void)
+{    
+    BSP_Delay_ms(10);
+    Timer_MainFunction(10);
 
-    for(uint32_t i=0;i<task_count;i++)
+    for(uint32_t i = 0;i < task_count; i++)
     {
         Task_t *task = task_list[i];
-        if(now - task->last_run >= task->period_ms)
-        {
-            task->last_run = now;
-            task->function();
-        }
+        task->function();
     }
 }

@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "AppSystem.h"
+#include "Scheduler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -95,9 +96,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    AppSystem_Main();
+    Scheduler_MainFunction();
     /* USER CODE BEGIN 3 */
-    HAL_Delay(100);
   }
   /* USER CODE END 3 */
 }

@@ -3,8 +3,7 @@
 
 #include  "esc_types.h"
 
-typedef enum
-{
+typedef enum BSP_Stepper_Direction_t{
     BSP_STEPPER_STOP,
     BSP_STEPPER_FORWARD,
     BSP_STEPPER_BACKWARD

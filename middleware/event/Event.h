@@ -5,7 +5,7 @@
 
 typedef uint32_t EventBitMap; // uint32 for stm32 platform
 
-typedef enum {
+typedef enum EventId_t{
     EVENT_NONE = 0,
     EVENT_LED,
     EVENT_CAN_RX,
@@ -16,7 +16,7 @@ typedef enum {
     EVENT_MAX
 }EventId;
 
-typedef enum{
+typedef enum EventPendingState_t{
     EVENT_STATE_NOT_PENDING = 0x00u,
     EVENT_STATE_PENDING
 }EventPendingState;
