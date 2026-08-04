@@ -1,6 +1,7 @@
 #include "AppSystem.h"
 #include "BSP_LED.h"
 #include "BSP_Delay.h"
+#include "BSP_UART.h"
 #include "Scheduler.h"
 #include "Event.h"
 #include "Timer.h"
@@ -19,15 +20,16 @@ static Task_t AppSystem_heartbeat_task =
 
 void AppSystem_Init()
 {
+    // Driver Init
+    BSP_Delay_Init();
+    BSP_LED_Init();
+    BSP_UART_Init();
+ 
     // Middleware Init
     Event_Init();
     Scheduler_Init();
     Timer_Init();
-
-    // Driver Init
-    BSP_Delay_Init();
-    BSP_LED_Init();
-
+    
     // Application Task Init
     Scheduler_Register(&AppSystem_heartbeat_task);
     AppLed_Init();

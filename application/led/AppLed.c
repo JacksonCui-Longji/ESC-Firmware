@@ -1,6 +1,7 @@
 #include "AppLed.h"
 #include "Event.h"
 #include "BSP_LED.h"
+#include "Logger.h"
 #include "Timer.h"
 #include "Scheduler.h"
 
@@ -30,5 +31,7 @@ void AppLed_Process(void)
     {
         BSP_LED_Toggle(BSP_LED_COLOR_RED);
         Event_Clear(EVENT_LED);
+        static const uint8_t msg[] = "led toggle\r\n";
+        BSP_UART_Send(msg, sizeof(msg)-1);
     }
 }
