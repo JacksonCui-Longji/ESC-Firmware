@@ -5,12 +5,14 @@ target_include_directories(Drivers PUBLIC
     motor
     seat
     system
+    led
 )
 
 target_sources(Application PRIVATE
     system/AppSystem.c
     motor/AppMotorControl.c
     seat/AppSeatController.c
+    led/AppLed.c
 )
 
 target_link_libraries(Application

@@ -11,9 +11,9 @@ typedef struct
     TaskFunc function;
 } Task_t;
 
-void Scheduler_Init(void);
-void Scheduler_MainFunction(void);
-ret_t Scheduler_Register(Task_t *task);
+extern void Scheduler_Init(void);
+extern void Scheduler_MainFunction(void);
+extern ret_t Scheduler_Register(Task_t *task);
 
 
 #endif // SCHEDULER_H

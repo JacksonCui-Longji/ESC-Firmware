@@ -2,6 +2,7 @@
 #include "BSP_Delay.h"
 #include "BSP_Time.h"
 #include "Timer.h"
+#include <string.h>
 
 #define MAX_TASK_NUM 10
 
@@ -10,11 +11,17 @@ static uint32_t task_count = 0;
 
 void Scheduler_Init(void)
 {
-
+    memset(task_list, 0, sizeof(task_list));
+    task_count = 0;
 }
 
 ret_t Scheduler_Register(Task_t *task)
 {
+    if(task == NULL)
+    {
+        return RET_NG;
+    }
+    
     if(task_count >= MAX_TASK_NUM)
     {
         return RET_NG;
