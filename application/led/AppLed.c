@@ -1,7 +1,9 @@
+#define LOG_MODULE ("LED")
+
 #include "AppLed.h"
 #include "Event.h"
 #include "BSP_LED.h"
-#include "Logger.h"
+#include "Logger_Macro.h"
 #include "Timer.h"
 #include "Scheduler.h"
 
@@ -29,9 +31,8 @@ void AppLed_Process(void)
 {
     if(EVENT_STATE_PENDING == Event_IsPending(EVENT_LED))
     {
-        BSP_LED_Toggle(BSP_LED_COLOR_RED);
+        BSP_LED_Toggle(BSP_LED_COLOR_GREEN);
         Event_Clear(EVENT_LED);
-        static const uint8_t msg[] = "led toggle\r\n";
-        BSP_UART_Send(msg, sizeof(msg)-1);
+        LOG_WARN("LED TOGGLE");
     }
 }
