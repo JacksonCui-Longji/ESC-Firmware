@@ -7,6 +7,7 @@ target_sources(Middleware PRIVATE
     scheduler/Scheduler.c
     timer/Timer.c
     memory/MemoryPool.c
+    system/system_time/SystemTime.c
 )
 
 
@@ -16,6 +17,7 @@ target_include_directories(Middleware PUBLIC
     scheduler
     timer
     memory
+    system/system_time
 )
 
 

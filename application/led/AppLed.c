@@ -33,6 +33,6 @@ void AppLed_Process(void)
     {
         BSP_LED_Toggle(BSP_LED_COLOR_GREEN);
         Event_Clear(EVENT_LED);
-        LOG_WARN("LED TOGGLE");
+        LOG_INFO("LED TOGGLE");
     }
 }

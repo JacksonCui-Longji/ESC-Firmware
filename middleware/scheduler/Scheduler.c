@@ -2,6 +2,7 @@
 #include "BSP_Delay.h"
 #include "BSP_Time.h"
 #include "Timer.h"
+#include "SystemTime.h"
 #include <string.h>
 
 #define MAX_TASK_NUM 10
@@ -33,9 +34,11 @@ ret_t Scheduler_Register(Task_t *task)
 }
 
 void Scheduler_MainFunction(void)
-{    
-    BSP_Delay_ms(10);
-    Timer_MainFunction(10);
+{
+    uint32_t elapsed_ms;
+
+    elapsed_ms = SystemTime_GetElapsedMs();
+    Timer_MainFunction(elapsed_ms);
 
     for(uint32_t i = 0;i < task_count; i++)
     {

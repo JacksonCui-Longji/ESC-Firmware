@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-
+#include "SystemTime.h"
+#include <inttypes.h>
 
 static const char *LogLevel_String[LOG_LEVEL_MAX] =
 {
@@ -63,13 +64,15 @@ void Logger_Print(
     va_end(args);
 
     char log_buffer[256];
+    uint32_t systemtime = SystemTime_GetMs();
 
     if(LOG_LEVEL_MAX <= level)
     {
         snprintf(
             log_buffer,
             sizeof(log_buffer),
-            "[%s][%s][%s:%d] %s:%d\r\n",
+            "[T=%" PRIu32 "ms][%s][%s][%s:%d] %s:%d\r\n",
+            systemtime,
             LogLevel_String[LOG_LEVEL_ERROR],
             module,
             Logger_GetFileName(file),
@@ -83,7 +86,8 @@ void Logger_Print(
         snprintf(
             log_buffer,
             sizeof(log_buffer),
-            "[%s][%s][%s:%d] %s\r\n",
+            "[T=%" PRIu32 "ms][%s][%s][%s:%d] %s\r\n",
+            systemtime,
             LogLevel_String[level],
             module,
             Logger_GetFileName(file),
