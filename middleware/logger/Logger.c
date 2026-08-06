@@ -6,6 +6,9 @@
 #include "SystemTime.h"
 #include <inttypes.h>
 
+#define LOGGER_MSG_BUFFER_SIZE      (0x80u)
+#define LOGGER_OUTPUT_BUFFER_SIZE   (0x100u)
+
 static const char *LogLevel_String[LOG_LEVEL_MAX] =
 {
     "DEBUG",
@@ -14,6 +17,9 @@ static const char *LogLevel_String[LOG_LEVEL_MAX] =
     "ERROR",
 };
 
+static LogLevel g_cfg_runtime_log_level = LOG_LEVEL_ERROR;
+
+// get current outputing file name.
 static const char *Logger_GetFileName(const char *path)
 {
     const char *name1 = strrchr(path, '/');
@@ -39,7 +45,7 @@ static const char *Logger_GetFileName(const char *path)
 
 void Logger_Init(void)
 {
-
+    g_cfg_runtime_log_level = LOG_LEVEL_ERROR;
 }
 
 void Logger_Print(
@@ -50,7 +56,13 @@ void Logger_Print(
         const char *fmt,
         ...)
 {
-    char buffer[128];
+
+    if(level < g_cfg_runtime_log_level)
+    {
+        return;
+    }
+
+    char buffer[LOGGER_MSG_BUFFER_SIZE];
 
     va_list args;
 
@@ -63,7 +75,7 @@ void Logger_Print(
     );
     va_end(args);
 
-    char log_buffer[256];
+    char log_buffer[LOGGER_OUTPUT_BUFFER_SIZE];
     uint32_t systemtime = SystemTime_GetMs();
 
     if(LOG_LEVEL_MAX <= level)
@@ -99,3 +111,14 @@ void Logger_Print(
     BSP_UART_Send((uint8_t *)log_buffer, strlen(log_buffer));
 }
 
+void Logger_SetRuntimeLogLevel(LogLevel level)
+{
+    if(level >= LOG_LEVEL_MAX)
+    {
+        return;
+    }
+    else
+    {
+        g_cfg_runtime_log_level = level;
+    }
+}

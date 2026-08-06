@@ -22,4 +22,6 @@ extern void Logger_Print(
         const char *fmt,
         ...);
 
+extern void Logger_SetRuntimeLogLevel(LogLevel level);
+
 #endif // LOGGER_H
