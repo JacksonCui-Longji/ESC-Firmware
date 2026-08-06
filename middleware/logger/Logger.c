@@ -17,7 +17,7 @@ static const char *LogLevel_String[LOG_LEVEL_MAX] =
     "ERROR",
 };
 
-static LogLevel g_cfg_runtime_log_level = LOG_LEVEL_ERROR;
+static LogLevel g_cfg_runtime_log_level = LOG_LEVEL_DEBUG;
 
 // get current outputing file name.
 static const char *Logger_GetFileName(const char *path)

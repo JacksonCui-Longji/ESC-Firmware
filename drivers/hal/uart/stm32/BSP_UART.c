@@ -2,7 +2,8 @@
 #include "stm32f1xx_hal.h"
 #include "main.h"
 
-static UART_HandleTypeDef g_uart1_handle;
+UART_HandleTypeDef g_uart1_handle;
+static uint8_t g_uart_rx_byte;
 
 void BSP_UART_Init(void)
 {
@@ -33,4 +34,23 @@ void BSP_UART_Init(void)
 int BSP_UART_Send(const uint8_t *data, uint16_t len)
 {
     return HAL_UART_Transmit(&g_uart1_handle, (uint8_t *)data, len, 1000);
+}
+
+void BSP_UART_StartRx(void)
+{
+    HAL_UART_Receive_IT(&g_uart1_handle, &g_uart_rx_byte, 1);
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if(huart->Instance == USART1)
+    {
+        uint8_t data = g_uart_rx_byte;
+
+        // test
+        BSP_UART_Send(&data, 1);
+
+        // restart receive
+        HAL_UART_Receive_IT(&g_uart1_handle, &g_uart_rx_byte, 1);
+    }
 }

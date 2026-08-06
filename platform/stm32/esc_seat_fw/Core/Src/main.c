@@ -96,8 +96,9 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    Scheduler_MainFunction();
     /* USER CODE BEGIN 3 */
+    Scheduler_MainFunction();
+
   }
   /* USER CODE END 3 */
 }

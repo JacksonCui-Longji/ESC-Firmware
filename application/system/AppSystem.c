@@ -24,7 +24,8 @@ void AppSystem_Init()
     BSP_Delay_Init();
     BSP_LED_Init();
     BSP_UART_Init();
- 
+    BSP_UART_StartRx();
+    
     // Middleware Init
     Event_Init();
     Scheduler_Init();
