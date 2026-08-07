@@ -17,7 +17,7 @@ static const char *LogLevel_String[LOG_LEVEL_MAX] =
     "ERROR",
 };
 
-static LogLevel g_cfg_runtime_log_level = LOG_LEVEL_DEBUG;
+static LogLevel g_cfg_runtime_log_level = LOG_LEVEL_WARN;
 
 // get current outputing file name.
 static const char *Logger_GetFileName(const char *path)
@@ -110,6 +110,12 @@ void Logger_Print(
 
     BSP_UART_Send((uint8_t *)log_buffer, strlen(log_buffer));
 }
+
+LogLevel Logger_GetRuntimeLogLevel(void)
+{
+    return g_cfg_runtime_log_level;
+}
+
 
 void Logger_SetRuntimeLogLevel(LogLevel level)
 {

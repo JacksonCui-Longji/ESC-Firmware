@@ -23,5 +23,5 @@ extern void Logger_Print(
         ...);
 
 extern void Logger_SetRuntimeLogLevel(LogLevel level);
-
+extern LogLevel Logger_GetRuntimeLogLevel(void);
 #endif // LOGGER_H

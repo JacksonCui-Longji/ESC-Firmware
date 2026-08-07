@@ -1,6 +1,7 @@
 #include "Scheduler.h"
 #include "BSP_Delay.h"
 #include "BSP_Time.h"
+#include "CLI.h"
 #include "Timer.h"
 #include "SystemTime.h"
 #include <string.h>
@@ -39,7 +40,7 @@ void Scheduler_MainFunction(void)
 
     elapsed_ms = SystemTime_GetElapsedMs();
     Timer_MainFunction(elapsed_ms);
-
+    CLI_MainFunction();
     for(uint32_t i = 0;i < task_count; i++)
     {
         Task_t *task = task_list[i];
