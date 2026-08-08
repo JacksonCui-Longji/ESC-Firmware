@@ -16,6 +16,7 @@ typedef struct
 /*
  * command handlers
  */
+extern void CLI_Help(int argc, char *argv[]);
 extern void CLI_Log(int argc, char *argv[]);
 
 /*
@@ -31,6 +32,7 @@ extern void CLI_Log(int argc, char *argv[]);
  */
 static const CLI_CommandTable_t g_cli_command_table[] =
 {
+    {"help", CLI_Help},
     {"log", CLI_Log},
 
 };

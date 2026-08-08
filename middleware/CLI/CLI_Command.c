@@ -5,6 +5,17 @@
 
 static const char LOG_PARA_ERROR[] = "Input parameter error! eg: log set level debug\r\n";
 
+void CLI_Help(int argc, char *argv[])
+{
+    const uint8_t help_info[] = 
+    "1. use help checking help information.\r\n"
+    "2. use log set level debug/info/warn/error to set runtime log level\r\n"
+    "3. use log get level to check runtime log level.\r\n";
+
+    BSP_UART_Send(help_info, strlen(help_info));
+
+}
+
 void CLI_Log(int argc, char *argv[])
 {
     if(argc <= 0 || argv == NULL)
