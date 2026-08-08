@@ -18,6 +18,7 @@ typedef struct
  */
 extern void CLI_Help(int argc, char *argv[]);
 extern void CLI_Log(int argc, char *argv[]);
+extern void CLI_CRC32Calculate(int argc, char *argv[]);
 
 /*
  * Root command table
@@ -34,6 +35,7 @@ static const CLI_CommandTable_t g_cli_command_table[] =
 {
     {"help", CLI_Help},
     {"log", CLI_Log},
+    {"crc32", CLI_CRC32Calculate},
 
 };
 
