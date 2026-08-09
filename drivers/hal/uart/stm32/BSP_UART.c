@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-UART_HandleTypeDef g_uart1_handle;
+extern UART_HandleTypeDef huart1;
 
 static uint8_t g_uart_rx_byte;
 
@@ -22,17 +22,16 @@ static uint16_t g_uart_rx_read_index = 0;
 
 void BSP_UART_Init(void)
 {
-    g_uart1_handle.Instance = USART1;
+    huart1.Instance = USART1;
+    huart1.Init.BaudRate = 115200;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.StopBits = UART_STOPBITS_1;
+    huart1.Init.Parity = UART_PARITY_NONE;
+    huart1.Init.Mode = UART_MODE_TX_RX;
+    huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart1.Init.OverSampling = UART_OVERSAMPLING_16;
 
-    g_uart1_handle.Init.BaudRate = 115200;
-    g_uart1_handle.Init.WordLength = UART_WORDLENGTH_8B;
-    g_uart1_handle.Init.StopBits = UART_STOPBITS_1;
-    g_uart1_handle.Init.Parity = UART_PARITY_NONE;
-    g_uart1_handle.Init.Mode = UART_MODE_TX_RX;
-    g_uart1_handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    g_uart1_handle.Init.OverSampling = UART_OVERSAMPLING_16;
-
-    if (HAL_UART_Init(&g_uart1_handle) != HAL_OK)
+    if (HAL_UART_Init(&huart1) != HAL_OK)
     {
         // Error_Handler();
     }
@@ -41,7 +40,7 @@ void BSP_UART_Init(void)
 int BSP_UART_Send(const uint8_t *data, uint16_t len)
 {
     return HAL_UART_Transmit(
-            &g_uart1_handle,
+            &huart1,
             (uint8_t *)data,
             len,
             1000
@@ -103,7 +102,7 @@ void BSP_UART_StartRx(void)
     g_uart_rx_write_index = 0;
     g_uart_rx_read_index = 0;
 
-    HAL_UART_Receive_IT(&g_uart1_handle, &g_uart_rx_byte, 1);
+    HAL_UART_Receive_IT(&huart1, &g_uart_rx_byte, 1);
 }
 
 /*
@@ -119,6 +118,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         /*
          * restart RX interrupt
          */
-        HAL_UART_Receive_IT(&g_uart1_handle, &g_uart_rx_byte, 1);
+        HAL_UART_Receive_IT(&huart1, &g_uart_rx_byte, 1);
     }
 }
