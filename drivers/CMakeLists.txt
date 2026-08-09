@@ -22,4 +22,5 @@ target_include_directories(Drivers PUBLIC
 target_link_libraries(Drivers PUBLIC
     Common
     STM32_HAL
+    Middleware
 )
