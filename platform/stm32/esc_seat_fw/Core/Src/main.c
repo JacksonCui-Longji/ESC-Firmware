@@ -92,7 +92,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  // MX_USART1_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   AppSystem_Init();
   /* USER CODE END 2 */
