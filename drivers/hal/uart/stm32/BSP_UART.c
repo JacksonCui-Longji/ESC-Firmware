@@ -1,20 +1,22 @@
 #include "BSP_UART.h"
 #include "stm32f1xx_hal.h"
+#include "stm32f1xx_hal_dma.h"
 #include "main.h"
 #include <string.h>
 
+#define DMA_UART
 
 extern UART_HandleTypeDef huart1;
 
+#ifndef DMA_UART
 static uint8_t g_uart_rx_byte;
-
+#endif
 
 /* ============================
  * UART RX Ring Buffer
  * ============================ */
 
 static uint8_t g_uart_rx_buffer[BSP_UART_RX_BUFFER_MAX];
-
 static uint16_t g_uart_rx_write_index = 0;
 static uint16_t g_uart_rx_read_index = 0;
 
@@ -48,6 +50,7 @@ int BSP_UART_Send(const uint8_t *data, uint16_t len)
     );
 }
 
+#ifndef DMA_UART
 /*
  * Push one byte into RX buffer
  *
@@ -72,7 +75,7 @@ static void BSP_UART_RxPush(uint8_t data)
     g_uart_rx_buffer[g_uart_rx_write_index] = data;
     g_uart_rx_write_index = next;
 }
-
+#endif
 
 
 /*
@@ -82,11 +85,15 @@ static void BSP_UART_RxPush(uint8_t data)
  */
 int BSP_UART_RxPop(uint8_t *data)
 {
+#ifdef DMA_UART
+    uint16_t ndtr = __HAL_DMA_GET_COUNTER(huart1.hdmarx);
+    g_uart_rx_write_index = BSP_UART_RX_BUFFER_MAX - ndtr;
+#endif
+
     if(g_uart_rx_write_index == g_uart_rx_read_index)
     {
         return -1;
     }
-
 
     *data = g_uart_rx_buffer[g_uart_rx_read_index];
     g_uart_rx_read_index = (g_uart_rx_read_index + 1) % BSP_UART_RX_BUFFER_MAX;
@@ -103,10 +110,14 @@ void BSP_UART_StartRx(void)
     g_uart_rx_write_index = 0;
     g_uart_rx_read_index = 0;
 
-    // HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+#ifdef DMA_UART
+    HAL_UART_Receive_DMA(&huart1, g_uart_rx_buffer, BSP_UART_RX_BUFFER_MAX);
+#else
     HAL_UART_Receive_IT(&huart1, &g_uart_rx_byte, 1);
+#endif
 }
 
+#ifndef DMA_UART
 /*
  * STM32 HAL callback
  *
@@ -123,3 +134,4 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         HAL_UART_Receive_IT(&huart1, &g_uart_rx_byte, 1);
     }
 }
+#endif
