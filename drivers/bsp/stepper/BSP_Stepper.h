@@ -13,7 +13,13 @@ typedef enum BSP_Stepper_Direction_t{
 
 extern void BSP_Stepper_Init(void);
 
-extern void BSP_Stepper_Move(BSP_Stepper_Direction dir,uint32_t step);
+extern void BSP_Stepper_Enable(void);
+
+extern void BSP_Stepper_Disable(void);
+
+extern void BSP_Stepper_SetDirection(BSP_Stepper_Direction direction);
+
+extern void BSP_Stepper_Step(void);
 
 extern void BSP_Stepper_Stop(void);
 
