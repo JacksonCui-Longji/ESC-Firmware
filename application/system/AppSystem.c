@@ -1,6 +1,7 @@
 #include "AppSystem.h"
 #include "BSP_LED.h"
 #include "BSP_Delay.h"
+#include "BSP_Stepper.h"
 #include "BSP_UART.h"
 #include "Scheduler.h"
 #include "Event.h"
@@ -23,6 +24,7 @@ void AppSystem_Init()
     // Driver Init
     BSP_Delay_Init();
     BSP_LED_Init();
+    BSP_Stepper_Init();
     BSP_UART_Init();
     BSP_UART_StartRx();
     
