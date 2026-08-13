@@ -7,6 +7,7 @@
 #include "Event.h"
 #include "Timer.h"
 #include "AppLed.h"
+#include "GraphicUserInterface.h"
 
 static void Task_AppSystemHeartbeat(void)
 {
@@ -32,6 +33,8 @@ void AppSystem_Init()
     Event_Init();
     Scheduler_Init();
     Timer_Init();
+    GUI_Init();
+
     
     // Application Task Init
     Scheduler_Register(&AppSystem_heartbeat_task);

@@ -8,6 +8,7 @@ target_sources(Middleware PRIVATE
     timer/Timer.c
     memory/MemoryPool.c
     system/system_time/SystemTime.c
+    GUI/GraphicUserInterface.c
     CLI/CLI.c
     CLI/CLI_Command.c
 )
@@ -21,6 +22,7 @@ target_include_directories(Middleware PUBLIC
     memory
     system/system_time
     CLI
+    GUI
 )
 
 

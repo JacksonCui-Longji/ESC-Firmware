@@ -33,6 +33,12 @@
 #define BOARD_LED_RED_GPIO_PORT      GPIOB
 #define BOARD_LED_RED_GPIO_PIN       GPIO_PIN_5
 
+/* LCD Reset */
+#define BOARD_LCD_GPIO_E_PORT        GPIOE
+#define BOARD_LCD_RST_GPIO_PIN       GPIO_PIN_1
 
+/* LCD Backlight */
+#define BOARD_LCD_BL_GPIO_PORT       GPIOD
+#define BOARD_LCD_BL_GPIO_PIN        GPIO_PIN_12
 
 #endif /* ESC_SEAT_BOARD_H */

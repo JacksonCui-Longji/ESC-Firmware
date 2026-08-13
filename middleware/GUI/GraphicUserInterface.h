@@ -1,0 +1,7 @@
+#ifndef GRAPHIC_USER_INTERFACE
+#define GRAPHIC_USER_INTERFACE
+
+extern void GUI_Init(void);
+
+
+#endif // GRAPHIC_USER_INTERFACE

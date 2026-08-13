@@ -5,6 +5,7 @@ target_sources(Drivers PRIVATE
     bsp/common/BSP_Time.c
     bsp/led/BSP_LED.c
     bsp/stepper/BSP_Stepper.c
+    bsp/lcd/BSP_LCD.c
 
     hal/uart/stm32/BSP_UART.c
 )
@@ -14,6 +15,7 @@ target_include_directories(Drivers PUBLIC
     bsp/common
     bsp/led
     bsp/stepper
+    bsp/lcd
     
     hal/uart
     ${PROJECT_SOURCE_DIR}/platform/board
