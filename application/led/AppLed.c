@@ -31,7 +31,7 @@ void AppLed_Process(void)
 {
     if(EVENT_STATE_PENDING == Event_IsPending(EVENT_LED))
     {
-        BSP_LED_Toggle(BSP_LED_COLOR_BLUE);
+        // BSP_LED_Toggle(BSP_LED_COLOR_BLUE);
         Event_Clear(EVENT_LED);
     }
 }

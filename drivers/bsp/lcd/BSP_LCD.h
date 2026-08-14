@@ -3,6 +3,11 @@
 
 #include "esc_types.h"
 
+#define BSP_LCD_RGB888_TO_RGB565(r, g, b) \
+    ((((uint16_t)(r) >> 3) << 11) | \
+     (((uint16_t)(g) >> 2) << 5)  | \
+     ((uint16_t)(b) >> 3))
+
 
 extern void BSP_LCD_Init(void);
 extern void BSP_LCD_Fill(uint16_t color);

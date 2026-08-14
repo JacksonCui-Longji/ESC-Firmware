@@ -16,8 +16,17 @@
 #define BSP_LCD_CMD  (*((volatile uint16_t *)BSP_LCD_CMD_ADDR))
 #define BSP_LCD_DATA (*((volatile uint16_t *)BSP_LCD_DATA_ADDR))
 
-#define BSP_LCD_WIDTH     240U
-#define BSP_LCD_HEIGHT    320U
+#define BSP_LCD_CMD_SOFT_RST                (0x01u)
+#define BSP_LCD_CMD_SLEEP_OUT               (0x11u)
+#define BSP_LCD_CMD_PIXEL_16BIT_RGB565      (0x3Au)
+#define BSP_LCD_CMD_MADCTL                  (0x36u)
+#define BSP_LCD_CMD_DISPLAY_ON              (0x29u)
+#define BSP_LCD_CMD_COLU_ADDR_SET           (0x2Au)
+#define BSP_LCD_CMD_PAGE_ADDR_SET           (0x2Bu)
+#define BSP_LCD_CMD_COLOR_SET               (0x2Cu)
+
+#define BSP_LCD_WIDTH     (240u)
+#define BSP_LCD_HEIGHT    (320u)
 
 void BSP_LCD_Reset(void)
 {
@@ -37,15 +46,15 @@ void BSP_LCD_Init(void)
     BSP_LCD_Reset();
 
     // ILI9341 software reset
-    BSP_LCD_WriteCommand(0x01);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_SOFT_RST);
     HAL_Delay(120);
 
     // ILI9341 sleep out
-    BSP_LCD_WriteCommand(0x11);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_SLEEP_OUT);
     HAL_Delay(120);
 
     /* Pixel Format: 16-bit/pixel RGB565 */
-    BSP_LCD_WriteCommand(0x3A);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_PIXEL_16BIT_RGB565);
     BSP_LCD_WriteData(0x55);
 
     /* Memory Access Control (MADCTL)
@@ -82,11 +91,11 @@ void BSP_LCD_Init(void)
     * This configuration keeps the normal row/column addressing
     * and selects BGR color order for the LCD panel.
     */
-    BSP_LCD_WriteCommand(0x36);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_MADCTL);
     BSP_LCD_WriteData(0x08);
 
     /* Display ON */
-    BSP_LCD_WriteCommand(0x29);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_DISPLAY_ON);
     HAL_Delay(20);
 }
 
@@ -105,14 +114,14 @@ static void BSP_LCD_SetAddressWindow(uint16_t x_start,
                                      uint16_t x_end,
                                      uint16_t y_end)
 {
-    BSP_LCD_WriteCommand(0x2A);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLU_ADDR_SET);
 
     BSP_LCD_WriteData(x_start >> 8);
     BSP_LCD_WriteData(x_start & 0xFF);
     BSP_LCD_WriteData(x_end >> 8);
     BSP_LCD_WriteData(x_end & 0xFF);
 
-    BSP_LCD_WriteCommand(0x2B);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_PAGE_ADDR_SET);
 
     BSP_LCD_WriteData(y_start >> 8);
     BSP_LCD_WriteData(y_start & 0xFF);
@@ -129,7 +138,7 @@ void BSP_LCD_Fill(uint16_t color)
                              BSP_LCD_WIDTH - 1,
                              BSP_LCD_HEIGHT - 1);
 
-    BSP_LCD_WriteCommand(0x2C);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLOR_SET);
 
     pixel_count = BSP_LCD_WIDTH * BSP_LCD_HEIGHT;
 
