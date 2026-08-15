@@ -25,8 +25,44 @@
 #define BSP_LCD_CMD_PAGE_ADDR_SET           (0x2Bu)
 #define BSP_LCD_CMD_COLOR_SET               (0x2Cu)
 
-#define BSP_LCD_WIDTH     (240u)
-#define BSP_LCD_HEIGHT    (320u)
+
+static void BSP_LCD_WriteCommand(uint16_t cmd)
+{
+    BSP_LCD_CMD = cmd;
+}
+
+static void BSP_LCD_WriteData(uint16_t data)
+{
+    BSP_LCD_DATA = data;
+}
+
+static void BSP_LCD_SetAddressWindow(uint16_t x_start,
+                                     uint16_t y_start,
+                                     uint16_t x_end,
+                                     uint16_t y_end)
+{
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLU_ADDR_SET);
+
+    /*
+    * ILI9341 address parameters are 16-bit values,
+    * transmitted as two consecutive 8-bit parameters:
+    *
+    *   High byte -> Low byte
+    */
+    // send high 8 bits
+    BSP_LCD_WriteData(x_start >> 8);
+    // send low 8 bits
+    BSP_LCD_WriteData(x_start & 0xFF);
+    BSP_LCD_WriteData(x_end >> 8);
+    BSP_LCD_WriteData(x_end & 0xFF);
+
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_PAGE_ADDR_SET);
+
+    BSP_LCD_WriteData(y_start >> 8);
+    BSP_LCD_WriteData(y_start & 0xFF);
+    BSP_LCD_WriteData(y_end >> 8);
+    BSP_LCD_WriteData(y_end & 0xFF);
+}
 
 void BSP_LCD_Reset(void)
 {
@@ -99,34 +135,18 @@ void BSP_LCD_Init(void)
     HAL_Delay(20);
 }
 
-void BSP_LCD_WriteCommand(uint16_t cmd)
+void BSP_LCD_BacklightOn(void)
 {
-    BSP_LCD_CMD = cmd;
+    HAL_GPIO_WritePin(BOARD_LCD_BL_GPIO_PORT,
+                      BOARD_LCD_BL_GPIO_PIN,
+                      GPIO_PIN_RESET);
 }
 
-void BSP_LCD_WriteData(uint16_t data)
+void BSP_LCD_BacklightOff(void)
 {
-    BSP_LCD_DATA = data;
-}
-
-static void BSP_LCD_SetAddressWindow(uint16_t x_start,
-                                     uint16_t y_start,
-                                     uint16_t x_end,
-                                     uint16_t y_end)
-{
-    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLU_ADDR_SET);
-
-    BSP_LCD_WriteData(x_start >> 8);
-    BSP_LCD_WriteData(x_start & 0xFF);
-    BSP_LCD_WriteData(x_end >> 8);
-    BSP_LCD_WriteData(x_end & 0xFF);
-
-    BSP_LCD_WriteCommand(BSP_LCD_CMD_PAGE_ADDR_SET);
-
-    BSP_LCD_WriteData(y_start >> 8);
-    BSP_LCD_WriteData(y_start & 0xFF);
-    BSP_LCD_WriteData(y_end >> 8);
-    BSP_LCD_WriteData(y_end & 0xFF);
+    HAL_GPIO_WritePin(BOARD_LCD_BL_GPIO_PORT,
+                      BOARD_LCD_BL_GPIO_PIN,
+                      GPIO_PIN_SET);
 }
 
 void BSP_LCD_Fill(uint16_t color)
@@ -148,9 +168,77 @@ void BSP_LCD_Fill(uint16_t color)
     }
 }
 
-void BSP_LCD_BL()
+void BSP_LCD_FillRect(uint16_t x_start, uint16_t y_start, 
+                      uint16_t x_end, uint16_t y_end, 
+                      uint16_t color)
 {
-     HAL_GPIO_WritePin(BOARD_LCD_BL_GPIO_PORT,
-                      BOARD_LCD_BL_GPIO_PIN,
-                      GPIO_PIN_RESET);
+    uint32_t pixel = 0;
+
+    if(((x_start >= BSP_LCD_WIDTH)&&(x_end >= BSP_LCD_WIDTH)) || 
+        ((y_start >= BSP_LCD_HEIGHT)&&(y_end >= BSP_LCD_HEIGHT)))
+    {
+        return;
+    }
+
+    if(x_start >= BSP_LCD_WIDTH)
+    {
+
+        x_start = BSP_LCD_WIDTH-1;
+    }
+
+    if(y_start >= BSP_LCD_HEIGHT)
+    {
+        y_start = BSP_LCD_HEIGHT-1;
+    }
+
+    if(x_end >= BSP_LCD_WIDTH)
+    {
+
+        x_end = BSP_LCD_WIDTH-1;
+    }
+
+    if(y_end >= BSP_LCD_HEIGHT)
+    {
+        y_end = BSP_LCD_HEIGHT-1;
+    }
+
+    if(x_start > x_end)
+    {
+        uint16_t tmp = x_start;
+        x_start = x_end;
+        x_end = tmp;
+    }
+
+    if(y_start > y_end)
+    {
+        uint16_t tmp = y_start;
+        y_start = y_end;
+        y_end = tmp;
+    }
+
+    pixel = (x_end-x_start+1)*(y_end-y_start+1);
+
+    BSP_LCD_SetAddressWindow(x_start, y_start, 
+                             x_end, y_end);
+
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLOR_SET);
+
+    while(pixel--)
+    {
+        BSP_LCD_WriteData(color);
+    }
+    return;
+}
+
+void BSP_LCD_DrawPixel(uint16_t x, uint16_t y, uint16_t color)
+{
+    BSP_LCD_SetAddressWindow(x, y, x, y);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLOR_SET);
+    BSP_LCD_WriteData(color);
+
+}
+
+void BSP_LCD_DrawImage()
+{
+
 }
