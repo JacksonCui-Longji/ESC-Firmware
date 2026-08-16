@@ -232,13 +232,48 @@ void BSP_LCD_FillRect(uint16_t x_start, uint16_t y_start,
 
 void BSP_LCD_DrawPixel(uint16_t x, uint16_t y, uint16_t color)
 {
+    if((x >= BSP_LCD_WIDTH) || (y >= BSP_LCD_HEIGHT))
+    {
+        return;
+    }
+
     BSP_LCD_SetAddressWindow(x, y, x, y);
     BSP_LCD_WriteCommand(BSP_LCD_CMD_COLOR_SET);
     BSP_LCD_WriteData(color);
 
 }
 
-void BSP_LCD_DrawImage()
+void BSP_LCD_DrawImage(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint16_t *image)
 {
+    uint32_t pixel_count;
 
+    if (image == NULL)
+    {
+        return;
+    }
+
+    if ((x >= BSP_LCD_WIDTH) || (y >= BSP_LCD_HEIGHT))
+    {
+        return;
+    }
+
+    if ((width == 0) || (height == 0))
+    {
+        return;
+    }
+
+    if ((x + width > BSP_LCD_WIDTH) || (y + height > BSP_LCD_HEIGHT))
+    {
+        return;
+    }
+
+    BSP_LCD_SetAddressWindow(x, y, x + width - 1, y + height - 1);
+    BSP_LCD_WriteCommand(BSP_LCD_CMD_COLOR_SET);
+
+    pixel_count = (uint32_t)width * height;
+
+    while (pixel_count--)
+    {
+        BSP_LCD_WriteData(*image++);
+    }
 }

@@ -8,10 +8,16 @@ void GUI_Init(void)
     GUI_Clear();
     BSP_LCD_BacklightOn();
 
+    uint16_t image[] = {
+        GUI_COLOR_RED, GUI_COLOR_RED, GUI_COLOR_GREEN, GUI_COLOR_GREEN,
+        GUI_COLOR_RED, GUI_COLOR_RED, GUI_COLOR_GREEN, GUI_COLOR_GREEN,
+        GUI_COLOR_BLUE, GUI_COLOR_BLUE, GUI_COLOR_WHITE, GUI_COLOR_WHITE,
+        GUI_COLOR_BLUE, GUI_COLOR_BLUE, GUI_COLOR_WHITE, GUI_COLOR_WHITE,
+    };
 
-    GUI_DrawRect(60, 80, 
-                 180, 240, 
-                 BSP_LCD_RGB888_TO_RGB565(233, 48, 242));
+    BSP_LCD_DrawImage(60, 80, 
+                      4, 4, 
+                      image);
 }
 
 void GUI_Clear(void)

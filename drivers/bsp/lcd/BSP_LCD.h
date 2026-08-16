@@ -34,6 +34,7 @@ extern void BSP_LCD_FillRect(uint16_t x_start, uint16_t y_start,
                              uint16_t x_end, uint16_t y_end, 
                              uint16_t color);
 extern void BSP_LCD_DrawPixel(uint16_t x, uint16_t y, uint16_t color);
+extern void BSP_LCD_DrawImage(uint16_t x, uint16_t y, uint16_t width, uint16_t height, const uint16_t *image);
 extern void BSP_LCD_Reset(void);
 
 #endif // BSP_LCD_H
