@@ -9,6 +9,7 @@ target_sources(Middleware PRIVATE
     memory/MemoryPool.c
     system/system_time/SystemTime.c
     GUI/GraphicUserInterface.c
+    GUI/GUI_Image_Seat.c
     CLI/CLI.c
     CLI/CLI_Command.c
 )

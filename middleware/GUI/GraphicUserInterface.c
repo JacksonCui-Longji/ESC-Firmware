@@ -1,6 +1,7 @@
 #include "GraphicUserInterface.h"
 #include "BSP_LCD.h"
 #include "GUI_Color.h"
+#include "GUI_Image_Seat.h"
 
 void GUI_Init(void)
 {
@@ -8,16 +9,9 @@ void GUI_Init(void)
     GUI_Clear();
     BSP_LCD_BacklightOn();
 
-    uint16_t image[] = {
-        GUI_COLOR_RED, GUI_COLOR_RED, GUI_COLOR_GREEN, GUI_COLOR_GREEN,
-        GUI_COLOR_RED, GUI_COLOR_RED, GUI_COLOR_GREEN, GUI_COLOR_GREEN,
-        GUI_COLOR_BLUE, GUI_COLOR_BLUE, GUI_COLOR_WHITE, GUI_COLOR_WHITE,
-        GUI_COLOR_BLUE, GUI_COLOR_BLUE, GUI_COLOR_WHITE, GUI_COLOR_WHITE,
-    };
-
-    BSP_LCD_DrawImage(60, 80, 
-                      4, 4, 
-                      image);
+    BSP_LCD_DrawImage(0, 0, 
+                      GUI_IMAGE_SEAT_WIDTH, GUI_IMAGE_SEAT_HEIGHT, 
+                      GUI_IMAGE_SEAT);
 }
 
 void GUI_Clear(void)
