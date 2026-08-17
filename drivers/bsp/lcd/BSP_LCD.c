@@ -128,7 +128,7 @@ void BSP_LCD_Init(void)
     * and selects BGR color order for the LCD panel.
     */
     BSP_LCD_WriteCommand(BSP_LCD_CMD_MADCTL);
-    BSP_LCD_WriteData(0x08);
+    BSP_LCD_WriteData(0x88);
 
     /* Display ON */
     BSP_LCD_WriteCommand(BSP_LCD_CMD_DISPLAY_ON);

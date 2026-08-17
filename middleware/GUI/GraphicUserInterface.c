@@ -1,17 +1,28 @@
 #include "GraphicUserInterface.h"
 #include "BSP_LCD.h"
 #include "GUI_Color.h"
+// TEST HEAD FILES START
 #include "GUI_Image_Seat.h"
+#include "GUI_Text.h"
+// TEST HEAD FILES END
+#include "string.h"
 
 void GUI_Init(void)
 {
     BSP_LCD_Init();
     GUI_Clear();
-    BSP_LCD_BacklightOn();
-
     BSP_LCD_DrawImage(0, 0, 
                       GUI_IMAGE_SEAT_WIDTH, GUI_IMAGE_SEAT_HEIGHT, 
                       GUI_IMAGE_SEAT);
+    GUI_DrawText(20,
+                 20,
+                 "ESC SEAT",
+                 &GUI_Font_8x16,
+                 GUI_COLOR_RED,
+                 GUI_COLOR_WHITE);
+
+    BSP_LCD_BacklightOn();
+
 }
 
 void GUI_Clear(void)

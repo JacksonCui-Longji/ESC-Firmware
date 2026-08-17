@@ -10,6 +10,8 @@ target_sources(Middleware PRIVATE
     system/system_time/SystemTime.c
     GUI/GraphicUserInterface.c
     GUI/GUI_Image_Seat.c
+    GUI/GUI_Text.c
+    GUI/resources/fonts/GUI_Font_8x16.c
     CLI/CLI.c
     CLI/CLI_Command.c
 )
@@ -24,6 +26,8 @@ target_include_directories(Middleware PUBLIC
     system/system_time
     CLI
     GUI
+    GUI/resources/
+    GUI/resources/fonts
 )
 
 
